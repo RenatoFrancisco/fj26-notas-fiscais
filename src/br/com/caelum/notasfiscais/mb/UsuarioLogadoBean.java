@@ -3,12 +3,12 @@ package br.com.caelum.notasfiscais.mb;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Model;
 import javax.inject.Named;
 
 import br.com.caelum.notasfiscais.modelo.Usuario;
 
-@Named
-@SessionScoped
+@Named @SessionScoped
 public class UsuarioLogadoBean implements Serializable {
 	private Usuario usuario;
 

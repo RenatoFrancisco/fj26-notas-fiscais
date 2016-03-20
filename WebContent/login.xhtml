@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:f="http://java.sun.com/jsp/jstl/core"
-	  xmlns:ui="http://java.sun.com/jsf/facelets">
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui">
 	
 <ui:composition template="_template.xhtml">
 	<ui:define name="corpo">			
@@ -16,7 +17,7 @@
 					<h:inputText id="login" value="#{loginBean.usuario.login}"/>
 					
 					<h:outputLabel value="Senha" for="senha"/>
-					<h:inputSecret id="senha" value="#{loginBean.usuario.senha}"/>
+					<p:password id="senha" value="#{loginBean.usuario.senha}" password="true"/>
 					
 					<h:commandButton action="#{loginBean.efetuaLogin}" value="Efetuar Login"/>
 				</h:form>

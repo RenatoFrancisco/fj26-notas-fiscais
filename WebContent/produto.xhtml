@@ -3,13 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
-		xmlns:ui="http://java.sun.com/jsf/facelets">
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="_template.xhtml">
 	<ui:define name="titulo">Novo Produto</ui:define>
 	<ui:define name="corpo">
 		<h:form id="formProduto">
-		
+				<h:messages styleClass="erros"/>
 				<h2>
 					<h:outputText value="Novo produto"
 						rendered="#{empty produtoBean.produto.id}"/>
@@ -23,61 +24,58 @@
 				<h:inputHidden value="#{produtoBean.produto.id}"/>
 				
 			
-					<h:outputLabel for="nome" value="Nome"/>
-					<h:inputText id="nome" value="#{produtoBean.produto.nome}"/>
+					<p:outputLabel for="nome" value="Nome:"/>
+					<p:inputText id="nome" value="#{produtoBean.produto.nome}"/>
 					
-					<h:outputLabel value="Descricao" for="descricao"/>
-					<h:inputTextarea id="descricao" value="#{produtoBean.produto.descricao}"/>
+					<p:outputLabel value="Descricao:" for="descricao"/>
+					<p:inputTextarea id="descricao" value="#{produtoBean.produto.descricao}"/>
 					
-					<h:outputLabel for="preco" value="Preco"/>
-					<h:inputText id="preco" value="#{produtoBean.produto.preco}"/>
+					<p:outputLabel for="preco" value="Preco:"/>
+					<p:inputText id="preco" value="#{produtoBean.produto.preco}"/>
 					
-					<h:commandButton value="Gravar" action="#{produtoBean.grava}">
-						<f:ajax execute="@form" render="@form :formTabela"/>
-					</h:commandButton>
+					<p:commandButton value="Gravar" action="#{produtoBean.grava}" update="@form :formTabela" 
+						icon="ui-icon-check"/>
 			</fieldset>
 		</h:form>
 		
 		<h2>Listagem de Produtos</h2>
 		
 		<h:form id="formTabela">
-			<h:dataTable value="#{produtoBean.produtos}" var="produto"
-					styleClass="dados" rowClasses="impar,par">
+			<p:dataTable value="#{produtoBean.dataModel}" var="produto"
+				paginator="true" rows="5" lazy="true">
 					
-				<h:column>
+				<p:column>
 					<f:facet name="header">Nome</f:facet>
 					#{produto.nome}
-				</h:column>
+				</p:column>
 				
-				<h:column>
+				<p:column>
 					<f:facet name="header">Descricao</f:facet>
 					#{produto.descricao}
-				</h:column>
+				</p:column>
 				
-				<h:column>
+				<p:column>
 					<f:facet name="header">Preco</f:facet>
 					#{produto.preco}
-				</h:column>
+				</p:column>
 				
-				<h:column>
-					<h:commandLink action="#{produtoBean.remove(produto)}" value="Remover">
-						<f:ajax render="@form" />
-					</h:commandLink>
-				</h:column>
+				<p:column>
+					<p:commandLink action="#{produtoBean.remove(produto)}" value="Remover" update="@form" />
+				</p:column>
 				
-				<h:column>
+				<p:column>
 					<h:commandLink value="Alterar">
 						<f:setPropertyActionListener value="#{produto}" 
 							target="#{produtoBean.produto}"></f:setPropertyActionListener>
 						<f:ajax render=":formProduto"/>
 					</h:commandLink>
-				</h:column>
+				</p:column>
 				
 				<f:facet name="footer">
 					<h2>						
 					</h2>
 				</f:facet>
-			</h:dataTable>
+			</p:dataTable>
 		</h:form>
 	</ui:define>
 </ui:composition>

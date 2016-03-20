@@ -4,7 +4,7 @@
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:f="http://java.sun.com/jsf/core"
 	  xmlns:ui="http://java.sun.com/jsf/facelets"
->
+	  xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>
@@ -27,6 +27,23 @@
 	</div>
 	
 	<div id="conteudo">
+		<h:form rendered="#{usuarioLogadoBean.logado}">
+			<p:themeSwitcher value="#{temaBean.tema}"
+				style="width:150px;">
+				<f:selectItems value="#{temaBean.temas}" />
+				<p:ajax />
+			</p:themeSwitcher>
+			<p:menubar>
+				<p:menuitem value="Produtos" url="produto.xhtml" 
+					icon="ui-icon ui-icon-document"/>
+				<p:submenu label="Notas Fiscais" icon="ui-icon-pencil">
+					<p:menuitem value="Cadastro" url="notafiscal.xhtml"/>
+					<p:menuitem value="Listagem" url="listanotas.xhtml"/>
+					<p:menuitem value="Gráficos" url="graficos.xhtml" />
+				</p:submenu>
+				<p:menuitem value="Sair" action="#{loginBean.logout}" icon="ui-icon-close"/>
+			</p:menubar>
+		</h:form>
 		<ui:insert name="corpo"/>
 	</div>
 	

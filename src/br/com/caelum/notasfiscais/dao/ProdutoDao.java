@@ -3,11 +3,11 @@ package br.com.caelum.notasfiscais.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 
+import br.com.caelum.notasfiscais.modelo.NotaFiscal;
 import br.com.caelum.notasfiscais.modelo.Produto;
 
 //@Stateless
@@ -63,5 +63,24 @@ public class ProdutoDao implements Serializable {
 		// this.manager.joinTransaction();
 		Produto produto = manager.find(Produto.class, id);
 		return produto;
+	}
+
+	public int contaTodos() {
+		long result = (Long) manager.createQuery(
+				"select count(p) from Produto p").getSingleResult();
+
+		return (int) result;
+	}
+
+	public List<Produto> listaTodosPaginada(int inicio, int quantidade) {
+		CriteriaQuery<Produto> query = manager.getCriteriaBuilder()
+				.createQuery(Produto.class);
+		query.select(query.from(Produto.class));
+
+		List<Produto> lista = manager.createQuery(query)
+				.setFirstResult(inicio).setMaxResults(quantidade)
+				.getResultList();
+
+		return lista;
 	}
 }

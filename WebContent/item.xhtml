@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui">
+	  
+	<ui:composition template="_template.xhtml">
+		<ui:define name="corpo">
+			<h:form>
+				<h:outputText value="#{notaFiscalBean.notaFiscal.cnpj}"/>
+				<fieldset>
+					<legend>Dados do Item</legend>
+					<h:panelGrid columns="2">
+						<p:outputLabel value="Produto" for="produto" />						
+						<p:autoComplete id="produto" value="#{notaFiscalBean.idProduto}" 
+							completeMethod="#{notaFiscalBean.busca}" minQueryLength="3"
+							var="produto" itemLabel="#{produto.nome}" itemValue="#{produto.id}"/>
+		 				
+		 				<p:outputLabel value="Quantidade" for="quantidade"/>
+		 				<p:inputText id="quantidade" value="#{notaFiscalBean.item.quantidade}"/>
+						<p:commandButton action="#{notaFiscalBean.guardaItem}" value="Guardar Item" 
+							update="tabelaNotas" />
+						<p:commandButton value="Voltar" action="notafiscal?faces-redirect=true"/>
+					</h:panelGrid>
+				</fieldset>
+				
+			
+			<h2>Itens da Nota Fiscal</h2>
+				<p:dataTable id="tabelaNotas" value="#{notaFiscalBean.notaFiscal.itens}" var="item"
+					paginator="true" rows="5" emptyMessage="Nenhum item associado">
+					<p:column>
+						<f:facet name="header">Produto</f:facet>
+						#{item.produto.nome}
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">Valor unitário</f:facet>
+						<h:outputText value="#{item.valorUnitario}">
+							<f:convertNumber type="currency" currencySymbol="R$ " locale="pt_BR"/>
+						</h:outputText>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">Quantidade</f:facet>
+						#{item.quantidade}
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">Total</f:facet>
+						<h:outputText value="#{item.total}">
+							<f:convertNumber type="currency" currencySymbol="R$ " locale="pt_BR"/>
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+			
+				<p:commandButton value="Finalizar" action="#{notaFiscalBean.grava}" update="@form" />
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+
+</html>
