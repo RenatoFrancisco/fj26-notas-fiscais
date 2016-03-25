@@ -19,7 +19,7 @@ public class NotaFiscal {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-
+	
 	private String cnpj;
 
 	@Temporal(TemporalType.DATE)

@@ -25,16 +25,29 @@
 				
 			
 					<p:outputLabel for="nome" value="Nome:"/>
-					<p:inputText id="nome" value="#{produtoBean.produto.nome}"/>
+					<p:inputText id="nome" value="#{produtoBean.produto.nome}">
+						<f:validator validatorId="comecaComMaiuscula"/>
+						<f:validator validatorId="produtoExiste"/>
+					</p:inputText>
 					
 					<p:outputLabel value="Descricao:" for="descricao"/>
 					<p:inputTextarea id="descricao" value="#{produtoBean.produto.descricao}"/>
 					
 					<p:outputLabel for="preco" value="Preco:"/>
-					<p:inputText id="preco" value="#{produtoBean.produto.preco}"/>
+					<p:inputText id="preco" value="#{produtoBean.produto.preco}"
+						required="true" requiredMessage="Preço é obrigatório"
+						validatorMessage="O valor mínimo é 0,50.">
+						<f:validateDoubleRange minimum="0.50"/>
+					</p:inputText>
+					
+					<h:inputHidden>
+						<f:validator validatorId="nomeEDescricao"/>
+					</h:inputHidden>
 					
 					<p:commandButton value="Gravar" action="#{produtoBean.grava}" update="@form :formTabela" 
 						icon="ui-icon-check"/>
+					<p:commandButton value="Cancelar edição" action="produto" icon="ui-icon-trash"
+						update="@form" immediate="true"/>
 			</fieldset>
 		</h:form>
 		
@@ -56,7 +69,9 @@
 				
 				<p:column>
 					<f:facet name="header">Preco</f:facet>
-					#{produto.preco}
+					<h:outputText value="#{produto.preco}">
+						<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR"/>
+					</h:outputText>						
 				</p:column>
 				
 				<p:column>
@@ -64,11 +79,16 @@
 				</p:column>
 				
 				<p:column>
-					<h:commandLink value="Alterar">
-						<f:setPropertyActionListener value="#{produto}" 
-							target="#{produtoBean.produto}"></f:setPropertyActionListener>
-						<f:ajax render=":formProduto"/>
-					</h:commandLink>
+					<p:commandLink value="Alterar" update=":formProduto">
+						<f:setPropertyActionListener value="#{produto}" target="#{produtoBean.produto}" />
+					</p:commandLink>
+				</p:column>
+				
+				<p:column headerText="Alterar">
+					<h:outputLink value="produto.xhtml">
+						<h:outputText value="Editar produto via GET"/>
+						<f:param name="produto.id" value="#{produto.id}"/>
+					</h:outputLink>
 				</p:column>
 				
 				<f:facet name="footer">

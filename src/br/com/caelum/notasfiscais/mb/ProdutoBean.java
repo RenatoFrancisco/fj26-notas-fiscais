@@ -3,10 +3,12 @@ package br.com.caelum.notasfiscais.mb;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Model;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.validator.ValidatorException;
+import javax.faces.view.facelets.FaceletContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -131,4 +133,7 @@ public class ProdutoBean implements Serializable{
 		return this.listaRelatorio;
 	}
 	
+	public void cancela() {
+		this.produto = new Produto();
+	}
 }

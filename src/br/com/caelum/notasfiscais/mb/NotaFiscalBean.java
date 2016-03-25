@@ -8,6 +8,8 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.component.datatable.DataTable;
+
 import br.com.caelum.notasfiscais.dao.NotaFiscalDao;
 import br.com.caelum.notasfiscais.dao.ProdutoDao;
 import br.com.caelum.notasfiscais.modelo.Item;
@@ -27,17 +29,18 @@ public class NotaFiscalBean implements Serializable {
 
 	@Inject
 	private ProdutoDao produtoDao;
-	
+
 	@Inject
 	private Conversation conversation;
-	
+
+	private DataTable tabela;
+
 	public String avanca() {
-		if(this.conversation.isTransient()) {
-			this.conversation.begin();			
+		if (this.conversation.isTransient()) {
+			this.conversation.begin();
 		}
 		return "item?faces-redirect=true";
 	}
-
 
 	public NotaFiscal getNotaFiscal() {
 		return notaFiscal;
@@ -54,7 +57,7 @@ public class NotaFiscalBean implements Serializable {
 	public void setIdProduto(Long idProduto) {
 		this.idProduto = idProduto;
 	}
-	
+
 	@Transactional
 	public String grava() {
 		this.notaFiscalDao.adiciona(this.notaFiscal);
@@ -76,7 +79,15 @@ public class NotaFiscalBean implements Serializable {
 		this.item = new Item();
 		this.idProduto = null;
 	}
-	
+
+	public void removeItem() {
+		Item item = (Item) this.tabela.getRowData();
+		System.out.println("Nome produto --> " + item.getProduto().getNome());
+		System.out.println("Total de linhas --> " + getTabela().getRowCount());
+
+		this.notaFiscal.getItens().remove(item);
+	}
+
 	@Transactional
 	public List<Produto> busca(String query) {
 		return this.produtoDao.buscaPorNome(query);
@@ -84,6 +95,14 @@ public class NotaFiscalBean implements Serializable {
 
 	private void limpa() {
 		this.notaFiscal = new NotaFiscal();
+	}
+
+	public DataTable getTabela() {
+		return tabela;
+	}
+
+	public void setTabela(DataTable tabela) {
+		this.tabela = tabela;
 	}
 
 }

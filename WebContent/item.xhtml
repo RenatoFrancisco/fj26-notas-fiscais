@@ -21,7 +21,7 @@
 		 				<p:outputLabel value="Quantidade" for="quantidade"/>
 		 				<p:inputText id="quantidade" value="#{notaFiscalBean.item.quantidade}"/>
 						<p:commandButton action="#{notaFiscalBean.guardaItem}" value="Guardar Item" 
-							update="tabelaNotas" />
+							update="tabelaNotas @form" />
 						<p:commandButton value="Voltar" action="notafiscal?faces-redirect=true"/>
 					</h:panelGrid>
 				</fieldset>
@@ -29,7 +29,9 @@
 			
 			<h2>Itens da Nota Fiscal</h2>
 				<p:dataTable id="tabelaNotas" value="#{notaFiscalBean.notaFiscal.itens}" var="item"
-					paginator="true" rows="5" emptyMessage="Nenhum item associado">
+					paginator="true" rows="5" emptyMessage="Nenhum item associado"
+					binding="#{notaFiscalBean.tabela}">
+					
 					<p:column>
 						<f:facet name="header">Produto</f:facet>
 						#{item.produto.nome}
@@ -53,8 +55,12 @@
 							<f:convertNumber type="currency" currencySymbol="R$ " locale="pt_BR"/>
 						</h:outputText>
 					</p:column>
+					
+					<p:column headerText="Remover">
+						<p:commandLink value="Remover" action="#{notaFiscalBean.removeItem}" update="@form"/>
+					</p:column>
 				</p:dataTable>
-			
+				<p:separator />
 				<p:commandButton value="Finalizar" action="#{notaFiscalBean.grava}" update="@form" />
 			</h:form>
 		</ui:define>

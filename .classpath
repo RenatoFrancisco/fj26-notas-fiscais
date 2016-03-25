@@ -15,5 +15,8 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/all-themes-1.0.9.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/primefaces-5.3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/caelum-stella-bean-validation-2.1.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/caelum-stella-core-2.1.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/caelum-stella-faces-2.1.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
